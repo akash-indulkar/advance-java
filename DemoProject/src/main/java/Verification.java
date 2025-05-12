@@ -24,12 +24,15 @@ public class Verification extends HttpServlet{ //HttpServlet is a class which ex
 //				RequestDispatcher rd = req.getRequestDispatcher("verifyCard"); //used to send a request to another servlet
 //				rd.forward(req, res);
 				out.println("valid user");
+				RequestDispatcher rd = req.getRequestDispatcher("notification");
+//				rd.forward(req, res); //cannot forward after response has been committed
+				rd.include(req, res); //include is used to add response of this servlet to buffer so that another servlet can also use this response
 			}
-			else out.println("invalid user");
+			else res.sendRedirect("Error.html"); //redirecting a new request to another page
 		} catch (IOException e) {
 			e.printStackTrace();
-//		} catch (ServletException e) {
-//			e.printStackTrace();
+		} catch (ServletException e) {
+			e.printStackTrace();
 		}
 	}
 }
